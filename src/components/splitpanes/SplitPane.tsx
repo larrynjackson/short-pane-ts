@@ -5,8 +5,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import QuoteContext from './QuoteContext';
-import SplitPaneContext from './SplitPaneContext';
+import QuoteContext from '../shortcontext/QuoteContext';
+import SplitPaneContext from '../shortcontext/SplitPaneContext';
 
 const SplitPane = ({ children, ...props }: any) => {
   const [clientHeight, setClientHeight] = useState<number | null>(null);

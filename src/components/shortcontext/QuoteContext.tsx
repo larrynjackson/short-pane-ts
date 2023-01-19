@@ -1,5 +1,5 @@
 import { useState, createContext } from 'react';
-import { quotes } from './App';
+import { quotes } from '../home/ShortenerPage';
 
 export type QuoteType = {
   id: number;
