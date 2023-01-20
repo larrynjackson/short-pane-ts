@@ -122,9 +122,7 @@ const CreateUserPage = () => {
       {nextAction === 'LOGIN' && (
         <div className="app">
           <div className="login-form">
-            <div className="title">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login
-            </div>
+            <div className="title">Login</div>
             {isLoginSubmitted ? renderSuccessScreen : renderLoginForm}
           </div>
         </div>

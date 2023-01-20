@@ -4,6 +4,7 @@ import HomePage from './components/home/HomePage';
 import AboutPage from './components/home/AboutPage';
 import LoginPage from './components/home/LoginPage';
 import CreateUserPage from './components/home/CreateUserPage';
+import AddDestinationPage from './components/home/AddDestinationPage';
 import ShortenerPage from './components/home/ShortenerPage';
 
 import './styles.css';
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/createuser" element={<CreateUserPage />} />
+          <Route path="/newdestination" element={<AddDestinationPage />} />
           <Route path="/shortener" element={<ShortenerPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>

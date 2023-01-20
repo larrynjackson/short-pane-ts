@@ -136,6 +136,20 @@ export const list = async () => {
   return map;
 };
 
+export const listTag = async () => {
+  let map = new Map();
+  const url = `${baseUrl}/get/usercodetag`;
+  await fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      map = handleReturnData(data);
+    });
+  return map;
+};
+
 export const deleteShortCode = async (shortCode: string) => {
   let map = new Map();
   const url = `${baseUrl}/delete/${shortCode}`;

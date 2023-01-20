@@ -202,9 +202,7 @@ const CreateUserPage = () => {
         <div className="app">
           <div className="login-form">
             <div className="title">User Created</div>
-            <div className="title">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login
-            </div>
+            <div className="title">Login</div>
           </div>
         </div>
       )}

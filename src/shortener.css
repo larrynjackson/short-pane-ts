@@ -71,7 +71,15 @@ input[type='submit']:hover {
 
 .title {
   font-size: 25px;
+  text-align: center;
   margin-bottom: 20px;
+}
+
+.success {
+  color: blue;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 17px;
 }
 
 .input-container {

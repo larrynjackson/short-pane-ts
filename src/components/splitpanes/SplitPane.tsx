@@ -14,19 +14,19 @@ const SplitPane = ({ children, ...props }: any) => {
   const yDividerPos = useRef<number | null>(null);
   const xDividerPos = useRef<number | null>(null);
 
-  console.log('ST children:', children);
-  console.log('ST props:', props);
+  //console.log('ST children:', children);
+  //console.log('ST props:', props);
 
   const onMouseHoldDown = (e: MouseEvent) => {
-    console.log('mouseHoldDown');
-    console.log('*****************************S holdDown y:', e.clientY);
-    console.log('*********************************S holdDown x:', e.clientX);
+    //console.log('mouseHoldDown');
+    //console.log('*****************************S holdDown y:', e.clientY);
+    //console.log('*********************************S holdDown x:', e.clientX);
     yDividerPos.current = e.clientY;
     xDividerPos.current = e.clientX;
   };
 
   const onMouseHoldUp = () => {
-    console.log('mouseHoldUp');
+    //console.log('mouseHoldUp');
     yDividerPos.current = null;
     xDividerPos.current = null;
   };
@@ -37,20 +37,20 @@ const SplitPane = ({ children, ...props }: any) => {
     }
 
     setClientHeight(clientHeight! + e.clientY - yDividerPos.current!);
-    console.log(
-      'S mouseMove setClientH:',
-      clientHeight! + e.clientY - yDividerPos.current!
-    );
+    // console.log(
+    //   'S mouseMove setClientH:',
+    //   clientHeight! + e.clientY - yDividerPos.current!
+    // );
     setClientWidth(clientWidth! + e.clientX - xDividerPos.current!);
-    console.log(
-      'S mouseMove setClientW:',
-      clientWidth! + e.clientX - xDividerPos.current!
-    );
+    // console.log(
+    //   'S mouseMove setClientW:',
+    //   clientWidth! + e.clientX - xDividerPos.current!
+    // );
 
     yDividerPos.current = e.clientY;
-    console.log('S mouseMove yDividerPos:', e.clientY);
+    //console.log('S mouseMove yDividerPos:', e.clientY);
     xDividerPos.current = e.clientX;
-    console.log('S mouseMove xDividerPos:', e.clientX);
+    //console.log('S mouseMove xDividerPos:', e.clientX);
   };
 
   useEffect(() => {
@@ -83,8 +83,8 @@ const SplitPane = ({ children, ...props }: any) => {
 export const Divider = (props: any) => {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
 
-  console.log('D props:', props);
-  console.log('D onMouseHoldDown:', onMouseHoldDown);
+  //console.log('D props:', props);
+  //console.log('D onMouseHoldDown:', onMouseHoldDown);
 
   return <div {...props} onMouseDown={onMouseHoldDown} />;
 };
@@ -155,8 +155,8 @@ export const SplitPaneTop = (props: any) => {
 
 export const SplitPaneBottom = (props: any) => {
   const { quote } = useContext(QuoteContext);
-  console.log('SB children:', props.children);
-  console.log('SB props:', props);
+  //console.log('SB children:', props.children);
+  //console.log('SB props:', props);
 
   return (
     <div {...props} className="split-pane-bottom">
