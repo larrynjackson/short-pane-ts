@@ -136,18 +136,18 @@ const AddDestinationPage = () => {
     </>
   );
 
-  const renderSuccessScreen = (
-    <>
-      <div className="app">
-        <div className="login-form">
-          <div className="title">
-            &nbsp;&nbsp;&nbsp;&nbsp; Destination Added
-          </div>
-          {renderDestinationForm}
-        </div>
-      </div>
-    </>
-  );
+  //   const renderSuccessScreen = (
+  //     <>
+  //       <div className="app">
+  //         <div className="login-form">
+  //           <div className="title">
+  //             &nbsp;&nbsp;&nbsp;&nbsp; Destination Added
+  //           </div>
+  //           {renderDestinationForm}
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
 
   return (
     <>

@@ -12,7 +12,7 @@ type userData = {
   pwdOne: string;
 };
 
-const CreateUserPage = () => {
+const LoginPage = () => {
   const [userData, setUserData] = useState<UserData>(new UserData());
 
   const [apiError, setApiError] = useState<string>('');
@@ -139,4 +139,4 @@ const CreateUserPage = () => {
   );
 };
 
-export default CreateUserPage;
+export default LoginPage;

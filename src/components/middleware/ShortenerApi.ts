@@ -47,6 +47,39 @@ export const isLoggedin = async (formData: FormData) => {
   return map;
 };
 
+export const resetPassword = async (userId: string) => {
+  let map = new Map();
+  const url = `${baseUrl}/resetpassword/${userId}`;
+  await fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      map = handleReturnData(data);
+    });
+  return map;
+};
+
+export const changePassword = async (formData: FormData) => {
+  let data: any = {};
+  let map = new Map();
+  formData.forEach((value, key) => (data[key] = value));
+  var json = JSON.stringify(data);
+
+  const url = `${baseUrl}/changepassword`;
+  await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    body: json,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      map = handleReturnData(data);
+    });
+  return map;
+};
+
 export const login = async (formData: FormData) => {
   let data: any = {};
   let map = new Map();
@@ -73,6 +106,25 @@ export const addUser = async (formData: FormData) => {
   var json = JSON.stringify(data);
 
   const url = `${baseUrl}/add/user`;
+  await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    body: json,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      map = handleReturnData(data);
+    });
+  return map;
+};
+
+export const editDest = async (formData: FormData) => {
+  let data: any = {};
+  let map = new Map();
+  formData.forEach((value, key) => (data[key] = value));
+  var json = JSON.stringify(data);
+
+  const url = `${baseUrl}/edit`;
   await fetch(url, {
     method: 'POST',
     credentials: 'include',
