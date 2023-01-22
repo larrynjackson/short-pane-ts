@@ -8,9 +8,8 @@ import AddDestinationPage from './components/home/AddDestinationPage';
 import ShortenerPage from './components/home/ShortenerPage';
 import EditDestinationPage from './components/home/EditDestinationPage';
 import PasswordAdminPage from './components/home/PasswordAdmin';
-import './styles.css';
 
-//import ShortPaneMain from './components/splitpanes/ShortPaneMain';
+import './components/css/shortener.css';
 
 export function getMachineId() {
   let machineId = localStorage.getItem('MachineId');
@@ -39,7 +38,6 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </Router>
-      {/* <ShortPaneMain /> */}
     </>
   );
 };

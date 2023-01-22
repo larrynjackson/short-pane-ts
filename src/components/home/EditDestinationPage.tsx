@@ -1,11 +1,9 @@
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
-//import { DestinationData } from '../models/DestinationData';
-import '../../shortener.css';
 import { TagOptionType } from '../shortcontext/TagContext';
-import Select, { StylesConfig } from 'react-select';
-import { CSSProperties } from 'react';
+import Select from 'react-select';
+import { SelectStyle } from '../css/ReactSelect';
 
 import {
   isLoggedin,
@@ -17,18 +15,9 @@ import {
 
 import { useState, useEffect } from 'react';
 
-// type DestinatioData = {
-//   destination: string;
-//   tag: string;
-// };
-
 const EditDestinationPage: React.FC = () => {
-  //   const [destinationData, setDestinationData] = useState<DestinationData>(
-  //     new DestinationData()
-  //   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [apiError, setApiError] = useState<string>('');
-  const [nextAction, setNextAction] = useState<string>('LOOP');
   const [isDestinationModified, setIsDestinationModified] = useState(false);
   const [destMap, setDestMap] = useState<any>();
   const [codeTagMap, setCodeTagMap] = useState<any>();
@@ -38,15 +27,15 @@ const EditDestinationPage: React.FC = () => {
   const [tag, setTag] = useState<string>('');
   const [destination, setDestination] = useState<string>('');
 
+  const nextAction = 'LOOP';
+
   useEffect(() => {
     const checkIsLoggedIn = async () => {
       try {
         const machineId = getMachineId();
         const formData = new FormData();
         formData.append('MachineId', `${machineId}`);
-        console.log('formData:', formData);
         const dataMap = await isLoggedin(formData);
-        console.log('login dataMap:', dataMap);
         if (dataMap.get('NextAction') === 'SHORTENER') {
           setIsLoggedIn(true);
         }
@@ -62,7 +51,6 @@ const EditDestinationPage: React.FC = () => {
         const destMap = await list();
         destMap.delete('Error');
         destMap.delete('NextAction');
-        console.log('destMap:', destMap);
         setDestMap(destMap);
       } catch (event) {
         if (event instanceof Error) {
@@ -87,8 +75,6 @@ const EditDestinationPage: React.FC = () => {
           }
         );
         setTagArray(tagArray);
-        console.log('userCodeTagMap:', codeTagMap);
-        console.log('tagArray:', tagArray);
       } catch (event) {
         if (event instanceof Error) {
           console.log('codeTagMapError:', event.message);
@@ -111,14 +97,12 @@ const EditDestinationPage: React.FC = () => {
             try {
               const dataMap = await deleteShortCode(shortCode);
               if (dataMap.get('Error') === '') {
-                /////////////////////////////////////////
                 setApiError('');
                 try {
                   const destMap = await list();
                   setApiError(destMap.get('Error'));
                   destMap.delete('Error');
                   destMap.delete('NextAction');
-                  console.log('destMap:', destMap);
                   setDestMap(destMap);
                 } catch (event) {
                   if (event instanceof Error) {
@@ -145,9 +129,6 @@ const EditDestinationPage: React.FC = () => {
                     }
                   );
                   setTagArray(tagArray);
-                  //setTagOption(tagArray[0]);
-                  console.log('userCodeTagMap:', userCodeTagMap);
-                  console.log('tagArray:', tagArray);
                 } catch (event) {
                   if (event instanceof Error) {
                     console.log('codeTagMapError:', event.message);
@@ -159,7 +140,6 @@ const EditDestinationPage: React.FC = () => {
                 } else {
                   setIsDestinationModified(false);
                 }
-                //////////////////////////////////////////
               } else {
                 setApiError(dataMap.get('Error'));
                 setIsDestinationModified(false);
@@ -204,16 +184,12 @@ const EditDestinationPage: React.FC = () => {
       formData.append('Tag', tag);
       formData.append('ShortCode', shortCode);
       formData.append('MachineId', `${machineId}`);
-      console.log('formData:', formData);
-
       const dataMap = await editDest(formData);
-      console.log('destination dataMap:', dataMap);
       setApiError(dataMap.get('Error'));
       if (dataMap.get('Error') === '') {
         destMap.set(shortCode, destination);
         codeTagMap.set(shortCode, tag);
 
-        ///////////////////////////
         const tagArray: TagOptionType[] = Array.from(
           codeTagMap,
           function (entry: any) {
@@ -238,41 +214,6 @@ const EditDestinationPage: React.FC = () => {
     }
   };
 
-  type SelectObject = {
-    value: string;
-    label: string;
-  };
-
-  const customControlStyles: CSSProperties = {
-    backgroundColor: 'lightyellow',
-    borderColor: 'blue',
-    width: '250px',
-  };
-
-  const customOptionStyles: CSSProperties = {
-    borderBottom: '1px dotted pink',
-    backgroundSize: '250px',
-    maxWidth: '250px',
-    borderColor: 'red',
-    width: '250px',
-  };
-
-  type IsMulti = false;
-
-  const selectStyle: StylesConfig<SelectObject, IsMulti> = {
-    option: (provided: any, state: any) => ({
-      color: state.isSelected ? 'white' : 'black',
-      ...provided,
-      ...customOptionStyles,
-    }),
-    control: (provided) => {
-      return {
-        ...provided,
-        ...customControlStyles,
-      };
-    },
-  };
-
   const onDestChange = (value: string) => {
     setDestination(value);
   };
@@ -284,7 +225,6 @@ const EditDestinationPage: React.FC = () => {
     setTag(codeTagMap.get(selectedOption.value));
     setShortCode(selectedOption.value);
     setDestination(destMap.get(selectedOption.value));
-    console.log('selectedOption:', selectedOption);
   };
 
   const renderDestinationForm = (
@@ -300,7 +240,7 @@ const EditDestinationPage: React.FC = () => {
                 value={tagOption}
                 options={tagArray}
                 onChange={handleTagSelectChange}
-                styles={selectStyle}
+                styles={SelectStyle}
               />
             </div>
           </div>

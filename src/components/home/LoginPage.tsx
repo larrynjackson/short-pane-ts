@@ -2,15 +2,10 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { UserData } from '../models/UserData';
-import '../../shortener.css';
+
 import { login, logOut } from '../middleware/ShortenerApi';
 
 import { useState } from 'react';
-
-type userData = {
-  userId: string;
-  pwdOne: string;
-};
 
 const LoginPage = () => {
   const [userData, setUserData] = useState<UserData>(new UserData());
@@ -39,9 +34,7 @@ const LoginPage = () => {
     const machineId = getMachineId();
     const formData = new FormData();
     formData.append('MachineId', `${machineId}`);
-    console.log('formData:', formData);
     const dataMap = await logOut(formData);
-    console.log('login dataMap:', dataMap);
     setApiError(dataMap.get('Error'));
   };
 
@@ -66,9 +59,7 @@ const LoginPage = () => {
       formData.append('User', userData.userId);
       formData.append('Password', userData.pwdOne);
       formData.append('MachineId', `${machineId}`);
-      console.log('formData:', formData);
       const dataMap = await login(formData);
-      console.log('login dataMap:', dataMap);
       setApiError(dataMap.get('Error'));
       if (dataMap.get('NextAction') === 'SHORTENER') {
         setNextAction(dataMap.get('NextAction'));

@@ -1,3 +1,5 @@
+import '../css/alertStyles.css';
+
 function Alert() {
   return (
     <div className="alert-container">

@@ -2,16 +2,9 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { UserData } from '../models/UserData';
-import '../../shortener.css';
 import { addUser, setCode } from '../middleware/ShortenerApi';
 
 import { useState } from 'react';
-
-type userData = {
-  userId: string;
-  pwdOne: string;
-  pwdTwo: string;
-};
 
 const CreateUserPage = () => {
   const [userData, setUserData] = useState<UserData>(new UserData());
@@ -63,9 +56,7 @@ const CreateUserPage = () => {
       formData.append('User', userData.userId);
       formData.append('Password', userData.pwdOne);
       formData.append('MachineId', `${machineId}`);
-      console.log('formData:', formData);
       const dataMap = await addUser(formData);
-
       setApiError(dataMap.get('Error'));
       if (dataMap.get('NextAction') === 'SEND_CODE') {
         setNextAction(dataMap.get('NextAction'));
@@ -95,11 +86,7 @@ const CreateUserPage = () => {
     try {
       const formData = new FormData();
       formData.append('PassCode', passCode);
-
-      console.log('formData:', formData);
       const dataMap = await setCode(formData);
-      console.log('setCode dataMap:', dataMap);
-
       setApiError(dataMap.get('Error'));
       if (dataMap.get('NextAction') === 'LOGIN') {
         setNextAction(dataMap.get('NextAction'));

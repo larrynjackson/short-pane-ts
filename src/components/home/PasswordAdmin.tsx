@@ -2,7 +2,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { UserData } from '../models/UserData';
-import '../../shortener.css';
 import { changePassword, resetPassword } from '../middleware/ShortenerApi';
 
 import { useState } from 'react';
@@ -11,10 +10,9 @@ const PasswordAdminPage = () => {
   const [userData, setUserData] = useState<UserData>(new UserData());
 
   const [apiError, setApiError] = useState<string>('');
-  const [nextAction, setNextAction] = useState<string>('LOOP');
-  //const [isRegisterSubmitted, setIsRegisterSubmitted] = useState(false);
   const [isPasswordSubmitted, setIsPasswordSubmitted] = useState(false);
-  // const [passCode, setPassCode] = useState<string>('');
+
+  const nextAction = 'LOOP';
 
   const handlePasswordChange = (event: any) => {
     const { type, name, value } = event.target;
@@ -60,9 +58,7 @@ const PasswordAdminPage = () => {
       formData.append('Password', userData.pwdOne);
       formData.append('PassCode', userData.pwdTwo);
       formData.append('MachineId', `${machineId}`);
-      console.log('formData:', formData);
       const dataMap = await changePassword(formData);
-      console.log('destination dataMap:', dataMap);
       setApiError(dataMap.get('Error'));
 
       if (dataMap.get('Error') === '') {
@@ -92,9 +88,7 @@ const PasswordAdminPage = () => {
       return;
     }
     try {
-      console.log('ResetPwduserId:', userData.userId);
       const dataMap = await resetPassword(userData.userId);
-      console.log('destination dataMap:', dataMap);
       setApiError(dataMap.get('Error'));
 
       if (dataMap.get('Error') === '') {

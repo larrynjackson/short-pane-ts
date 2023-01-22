@@ -2,16 +2,10 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { DestinationData } from '../models/DestinationData';
-import '../../shortener.css';
 
 import { isLoggedin, addDest } from '../middleware/ShortenerApi';
 
 import { useState, useEffect } from 'react';
-
-type DestinatioData = {
-  destination: string;
-  tag: string;
-};
 
 const AddDestinationPage = () => {
   const [destinationData, setDestinationData] = useState<DestinationData>(
@@ -19,8 +13,10 @@ const AddDestinationPage = () => {
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [apiError, setApiError] = useState<string>('');
-  const [nextAction, setNextAction] = useState<string>('LOOP');
+
   const [isDestinationAdded, setIsDestinationAdded] = useState(false);
+
+  const nextAction = 'LOOP';
 
   useEffect(() => {
     const checkIsLoggedIn = async () => {
@@ -28,9 +24,7 @@ const AddDestinationPage = () => {
         const machineId = getMachineId();
         const formData = new FormData();
         formData.append('MachineId', `${machineId}`);
-        console.log('formData:', formData);
         const dataMap = await isLoggedin(formData);
-        console.log('login dataMap:', dataMap);
         if (dataMap.get('NextAction') === 'SHORTENER') {
           setIsLoggedIn(true);
         }
@@ -80,11 +74,8 @@ const AddDestinationPage = () => {
       formData.append('Destination', destinationData.destination);
       formData.append('Tag', destinationData.tag);
       formData.append('MachineId', `${machineId}`);
-      console.log('formData:', formData);
       const dataMap = await addDest(formData);
-      console.log('destination dataMap:', dataMap);
       setApiError(dataMap.get('Error'));
-      //setNextAction(dataMap.get('NextAction'));
       if (dataMap.get('Error') === '') {
         setIsDestinationAdded(true);
       } else {
@@ -135,19 +126,6 @@ const AddDestinationPage = () => {
       </div>
     </>
   );
-
-  //   const renderSuccessScreen = (
-  //     <>
-  //       <div className="app">
-  //         <div className="login-form">
-  //           <div className="title">
-  //             &nbsp;&nbsp;&nbsp;&nbsp; Destination Added
-  //           </div>
-  //           {renderDestinationForm}
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
 
   return (
     <>

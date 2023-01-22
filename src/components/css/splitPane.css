@@ -111,3 +111,25 @@ blockquote p {
 .quote span {
   font-weight: bold;
 }
+
+.flex-container {
+  display: auto;
+  align-items: center; /* Use another value to see the result */
+  width: 75%;
+  height: flex;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+.flex-container p {
+  width: auto;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+.flex-container div {
+  width: 25%;
+  height: 60px;
+  margin: 5px;
+  border-radius: 3px;
+  background-color: #8ebf42;
+}
