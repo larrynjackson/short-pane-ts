@@ -26,8 +26,7 @@ const EditDestinationPage: React.FC = () => {
   const [tagOption, setTagOption] = useState<TagOptionType | undefined>();
   const [tag, setTag] = useState<string>('');
   const [destination, setDestination] = useState<string>('');
-
-  const nextAction = 'LOOP';
+  const [nextAction, setNextAction] = useState<string>('LOOP');
 
   useEffect(() => {
     const checkIsLoggedIn = async () => {
@@ -137,6 +136,8 @@ const EditDestinationPage: React.FC = () => {
                 }
                 if (apiError === '') {
                   setIsDestinationModified(true);
+
+                  setNextAction('GONE');
                 } else {
                   setIsDestinationModified(false);
                 }
@@ -222,9 +223,17 @@ const EditDestinationPage: React.FC = () => {
   };
 
   const handleTagSelectChange = (selectedOption: any) => {
+    setTagOption(selectedOption);
     setTag(codeTagMap.get(selectedOption.value));
     setShortCode(selectedOption.value);
     setDestination(destMap.get(selectedOption.value));
+  };
+
+  const handleContinue = () => {
+    setTagOption(undefined);
+    setTag('');
+    setDestination('');
+    setNextAction('LOOP');
   };
 
   const renderDestinationForm = (
@@ -275,6 +284,18 @@ const EditDestinationPage: React.FC = () => {
     </>
   );
 
+  const renderDeleteSuccess = (
+    <>
+      <div>
+        <div className="button-container">
+          <button type="button" onClick={handleContinue}>
+            Continue
+          </button>
+        </div>
+      </div>
+    </>
+  );
+
   const renderNotLoggedIn = (
     <>
       <div>
@@ -287,6 +308,16 @@ const EditDestinationPage: React.FC = () => {
     <>
       {nextAction === 'LOOP' && !isLoggedIn && (
         <div className="app">{renderNotLoggedIn}</div>
+      )}
+
+      {nextAction === 'GONE' && (
+        <div className="app">
+          <div className="login-form">
+            <div className="title">Edit/Delete Destination</div>
+            {isDestinationModified && <div className="success">success</div>}
+            {renderDeleteSuccess}
+          </div>
+        </div>
       )}
 
       {nextAction === 'LOOP' && (
