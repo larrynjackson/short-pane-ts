@@ -146,15 +146,14 @@ export const SplitPaneTop = (props: any) => {
 };
 
 export const SplitPaneBottom = (props: any) => {
-  const { tagArray, tag } = useContext(TagContext);
+  const { tag } = useContext(TagContext);
+  const url = 'http://localhost:8080/' + tag?.value;
   return (
     <div {...props} className="split-pane-bottom">
       <b>Short Code Test</b>: {tag?.value}
       <div>
-        <button
-          onClick={(e) => window.open(`http://localhost:8080/${tag?.value}`)}
-        >
-          <b>http://localhost:8080/{tag?.value}</b>
+        <button onClick={(e) => window.open(url)}>
+          <b>{url}</b>
         </button>
       </div>
     </div>

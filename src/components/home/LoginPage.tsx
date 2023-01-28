@@ -3,7 +3,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { UserData } from '../models/UserData';
 
-import { login, logOut } from '../middleware/ShortenerApi';
+import { login, logOut, resetPassword } from '../middleware/ShortenerApi';
 
 import { useState } from 'react';
 
@@ -13,6 +13,7 @@ const LoginPage = () => {
   const [apiError, setApiError] = useState<string>('');
   const [nextAction, setNextAction] = useState<string>('LOGIN');
   const [isLoginSubmitted, setIsLoginSubmitted] = useState(false);
+  //const [isPasswordSubmitted, setIsPasswordSubmitted] = useState(false);
 
   const handleLoginChange = (event: any) => {
     const { type, name, value } = event.target;
@@ -72,6 +73,36 @@ const LoginPage = () => {
     }
   };
 
+  const handleResetPassword = async (event: any) => {
+    event.preventDefault();
+    if (userData.userId.length === 0) {
+      confirmAlert({
+        title: 'Input Data Errors',
+        message: 'Enter your email address.',
+        buttons: [
+          {
+            label: 'Continue',
+          },
+        ],
+      });
+      return;
+    }
+    try {
+      const dataMap = await resetPassword(userData.userId);
+      setApiError(dataMap.get('Error'));
+
+      // if (dataMap.get('Error') === '') {
+      //   setIsPasswordSubmitted(true);
+      // } else {
+      //   setIsPasswordSubmitted(false);
+      // }
+    } catch (event) {
+      if (event instanceof Error) {
+        setApiError(event.message);
+      }
+    }
+  };
+
   const renderLoginForm = (
     <>
       {apiError && <div className="error">{apiError}</div>}
@@ -98,6 +129,11 @@ const LoginPage = () => {
               <button type="reset">Clear</button>
               <button type="button" onClick={handleLogOut}>
                 Logout
+              </button>
+            </div>
+            <div className="button-container">
+              <button type="button" onClick={handleResetPassword}>
+                Reset Password
               </button>
             </div>
           </div>

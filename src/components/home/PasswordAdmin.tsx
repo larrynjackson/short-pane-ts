@@ -2,17 +2,36 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { getMachineId } from '../../App';
 import { UserData } from '../models/UserData';
-import { changePassword, resetPassword } from '../middleware/ShortenerApi';
+import { changePassword, isLoggedin } from '../middleware/ShortenerApi';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const PasswordAdminPage = () => {
   const [userData, setUserData] = useState<UserData>(new UserData());
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [apiError, setApiError] = useState<string>('');
   const [isPasswordSubmitted, setIsPasswordSubmitted] = useState(false);
 
   const nextAction = 'LOOP';
+
+  useEffect(() => {
+    const checkIsLoggedIn = async () => {
+      try {
+        const machineId = getMachineId();
+        const formData = new FormData();
+        formData.append('MachineId', `${machineId}`);
+        const dataMap = await isLoggedin(formData);
+        if (dataMap.get('NextAction') === 'SHORTENER') {
+          setIsLoggedIn(true);
+        }
+      } catch (event) {
+        if (event instanceof Error) {
+          setApiError(event.message);
+        }
+      }
+    };
+    checkIsLoggedIn();
+  }, []);
 
   const handlePasswordChange = (event: any) => {
     const { type, name, value } = event.target;
@@ -73,39 +92,12 @@ const PasswordAdminPage = () => {
     }
   };
 
-  const handleResetPassword = async (event: any) => {
-    event.preventDefault();
-    if (userData.userId.length === 0) {
-      confirmAlert({
-        title: 'Input Data Errors',
-        message: 'Enter your email address.',
-        buttons: [
-          {
-            label: 'Continue',
-          },
-        ],
-      });
-      return;
-    }
-    try {
-      const dataMap = await resetPassword(userData.userId);
-      setApiError(dataMap.get('Error'));
-
-      if (dataMap.get('Error') === '') {
-        setIsPasswordSubmitted(true);
-      } else {
-        setIsPasswordSubmitted(false);
-      }
-    } catch (event) {
-      if (event instanceof Error) {
-        setApiError(event.message);
-      }
-    }
+  const handleClear = () => {
+    setUserData(new UserData());
   };
 
   const renderPasswordForm = (
     <>
-      {apiError && <div className="error">{apiError}</div>}
       <div className="form">
         <form onSubmit={handlePasswordSubmit}>
           <div className="input-container">
@@ -137,9 +129,8 @@ const PasswordAdminPage = () => {
               <input type="submit" />
             </div>
             <div className="button-container">
-              <button type="reset">Clear</button>
-              <button type="button" onClick={handleResetPassword}>
-                Reset Password
+              <button type="reset" onClick={handleClear}>
+                Clear
               </button>
             </div>
           </div>
@@ -148,12 +139,25 @@ const PasswordAdminPage = () => {
     </>
   );
 
+  const renderNotLoggedIn = (
+    <>
+      <div>
+        <h1>You must login</h1>
+      </div>
+    </>
+  );
+
   return (
     <>
+      {nextAction === 'LOOP' && !isLoggedIn && (
+        <div className="app">{renderNotLoggedIn}</div>
+      )}
+
       {nextAction === 'LOOP' && (
         <div className="app">
           <div className="login-form">
             <div className="title">Change Password</div>
+            {apiError && <div className="error">{apiError}</div>}
             {isPasswordSubmitted && <div className="success">success</div>}
             {renderPasswordForm}
           </div>

@@ -123,7 +123,6 @@ export const editDest = async (formData: FormData) => {
   let map = new Map();
   formData.forEach((value, key) => (data[key] = value));
   var json = JSON.stringify(data);
-
   const url = `${baseUrl}/edit`;
   await fetch(url, {
     method: 'POST',
